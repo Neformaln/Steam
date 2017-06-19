@@ -1,11 +1,13 @@
-package test.steam.forms;
+package framework.steam.forms;
 
+import framework.webdriver.BaseEntity;
+import framework.webdriver.BaseForm;
 import org.openqa.selenium.By;
-import test.steam.services.CommonFunctions;
-import test.webdriver.browser.BrowserFactory;
-import test.webdriver.elements.Button;
-import test.webdriver.elements.Image;
-import test.webdriver.elements.Label;
+import framework.steam.services.GeneralFunctions;
+import framework.webdriver.browser.BrowserFactory;
+import framework.webdriver.elements.Button;
+import framework.webdriver.elements.Image;
+import framework.webdriver.elements.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +24,31 @@ public class ActionPage extends BaseForm {
     String priceLabelLocatorKey = "priceLabelLocator";
     String specialsLocatorKey = "specialsLocator";
 
-
     public ActionPage() {
     }
 
     public void clickOnSpecials() {
+        BaseEntity.logger.info("Click on Specials");
         Properties locatorProperties = getLocatorProperties();
         BrowserFactory.waitElementExplicide(locatorProperties.getProperty(specialsLocatorKey));
         btnSpecialsTab = new Button(By.xpath(locatorProperties.getProperty(specialsLocatorKey)));
         btnSpecialsTab.click();
-
     }
 
     public List getDiscount() {
+        BaseEntity.logger.info("Get Max discount");
         Properties locatorProperties = getLocatorProperties();
         BrowserFactory.waitPageToLoad();
         BrowserFactory.waitJavascript();
         BrowserFactory.waitJavascript();
 
-
-        CommonFunctions commonFunctions = new CommonFunctions();
+        GeneralFunctions generalFunctions = new GeneralFunctions();
         Label label1 = new Label();
         List<Label> list = label1.getConvertedElements(locatorProperties.getProperty(discountLocatorKey));
-        List<Integer> discounts = commonFunctions.getListOfDiscounts(list);
-        int maxInd = commonFunctions.getIndMaxDiscount(discounts);
+        List<Integer> discounts = generalFunctions.getListOfDiscounts(list);
+        int maxInd = generalFunctions.getIndMaxDiscount(discounts);
 
         List<String> ldiscount_price = new ArrayList<>();
-
         List<Label> l = label1.getConvertedElements(locatorProperties.getProperty(discountLocatorKey));
         List<Label> l2 = label1.getConvertedElements(locatorProperties.getProperty(priceLabelLocatorKey));
         Label labelDiscount = label1.findElementByInd(l, maxInd);
@@ -60,6 +60,5 @@ public class ActionPage extends BaseForm {
         imgWithMaxDiscount = image.findElementByInd(gameImages, maxInd);
         imgWithMaxDiscount.click();
         return ldiscount_price;
-
     }
 }

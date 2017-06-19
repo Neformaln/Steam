@@ -1,5 +1,6 @@
-package test.webdriver.elements;
+package framework.webdriver.elements;
 
+import framework.webdriver.BaseElements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,33 +13,23 @@ public class Select extends BaseElements {
 
     public Select(By by) {
         this.select= findElement(by);
-
     }
-
-
-
 
     public Select(WebElement select) {
         this.select = select;
-
     }
-
 
     @Override
     public void click() {
-
         Actions action = new Actions(super.getDriver());
         action.moveToElement(select).build().perform();
         select.click();
-
-
     }
 
     @Override
     public String getText(){
         return select.getText();
     }
-
 
     @Override
     public void moveTo() {

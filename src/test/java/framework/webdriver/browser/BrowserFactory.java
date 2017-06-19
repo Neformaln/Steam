@@ -1,4 +1,4 @@
-package test.webdriver.browser;
+package framework.webdriver.browser;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
@@ -8,8 +8,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.steam.services.CommonFunctions;
+import framework.steam.services.GeneralFunctions;
 
+import javax.naming.NamingException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -19,40 +20,52 @@ import static java.time.zone.ZoneRulesProvider.refresh;
  * Created by User on 14.06.2017.
  */
 public abstract class BrowserFactory {
-
-    private static final String MAIN_PROPERTY_PATH="brouser.properties";
-
+    private static final String MAIN_PROPERTY_PATH= "config.properties";
     public abstract WebDriver getDriver();
     private static WebDriver driver;
     private static Properties properties;
     static  Long started;
 
-    public static WebDriver getMyDriver(String type){
+
+    public static WebDriver getMyDriver(final BrowserEnum type) throws Exception {
         switch (type) {
-            case "chrome": {
-
-                driver=ChromeFactory.getInstance();
+            case CHROME: {
+                driver = ChromeFactory.getInstance();
                 initProperties();
                 return driver;
-
             }
-            case "firefox": {
-
-                driver=FirefoxFactory.getInstance();
+            case FIREFOX: {
+                driver = FirefoxFactory.getInstance();
                 initProperties();
                 return driver;
-
             }
-
+            default:throw new Exception("Browser not found");
         }
-
-        throw new RuntimeException();
     }
 
+    public static WebDriver getMyDriver(final String type) throws Exception {
+        for (BrowserEnum t : BrowserEnum.values()){
+            if (t.toString().equalsIgnoreCase(type)){
+                return getMyDriver(t);
+            }
+        }
+        throw new NamingException("Wrong name");
+    }
+
+    public void osHelper(String driverName, String driverKeyWin, String driverKeyLin) {
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        String osType = System.getProperty("os.name").toLowerCase();
+        if(osType.indexOf( "win" ) >= 0){
+            System.setProperty(driverName, generalFunctions.readProperties("config.properties").getProperty(driverKeyWin));
+        }
+        else if(osType.indexOf( "nix") >=0 || osType.indexOf( "nux") >=0) {
+            System.setProperty(driverName, generalFunctions.readProperties("config.properties").getProperty(driverKeyLin));
+        }
+    }
 
     public static void initProperties(){
-        CommonFunctions commonFunctions = new CommonFunctions();
-        properties = commonFunctions.readProperties(MAIN_PROPERTY_PATH);
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        properties = generalFunctions.readProperties(MAIN_PROPERTY_PATH);
     }
 
     public static void waitJavascript(){
@@ -79,14 +92,11 @@ public abstract class BrowserFactory {
             refresh();
 
         }
-
-
     }
 
     public static void waitWithIgnoring(){
         Wait<WebDriver> wait = new WebDriverWait(driver, getTimeForLoadElement())
                 .ignoring(java.util.NoSuchElementException.class, ElementNotVisibleException.class);
-
     }
 
     public static void waitImplicitly(){
@@ -104,26 +114,20 @@ public abstract class BrowserFactory {
     }
 
 
-    public static void maximaseWindow(){
+    public static void maximiseWindow(){
         driver.manage().window().maximize();
-
     }
 
     public static void navigateUrl(String url){
         driver.navigate().to(url);
-
     }
-
-
 
     public static Long getTimeForLoadPage(){
         return Long.parseLong(properties.getProperty("timeoutJs"));
-
     }
 
     public static Long getTimeForLoadElement(){
         return Long.parseLong(properties.getProperty("timeout"));
-
     }
 
     public static void waitPageToLoad(){
@@ -132,11 +136,9 @@ public abstract class BrowserFactory {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void exit(){
         driver.close();
     }
-
 }

@@ -1,4 +1,4 @@
-package test.steam.services;
+package framework.steam.services;
 
 import org.apache.commons.io.IOUtils;
 

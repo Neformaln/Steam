@@ -1,13 +1,14 @@
-package test.webdriver.tests;
+package tests;
 
+import framework.webdriver.BaseForm;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import test.steam.forms.*;
-import test.steam.menus.Menu;
-import test.webdriver.elements.BaseEntity;
-import test.webdriver.browser.BrowserFactory;
+import framework.steam.forms.*;
+import framework.steam.menus.Menu;
+import framework.webdriver.BaseEntity;
+import framework.webdriver.browser.BrowserFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -21,23 +22,21 @@ public class SteamTest {
     BaseEntity baseEntity;
 
     @BeforeTest
-    public void setUp() {
-        BaseForm basePage = new BaseForm();
-        Properties properties = basePage.initProperties();
-        basePage.initLocatorProperties();
-        String br = properties.getProperty("brouser_type");
+    public void setUp() throws Exception {
+        BaseForm baseForm = new BaseForm();
+        Properties properties = baseForm.initProperties();
+        baseForm.initLocatorProperties();
+        String br = properties.getProperty("browser_type");
         driver = BrowserFactory.getMyDriver(br);
         String mainPage = properties.getProperty("main_page_url");
-        basePage = new BaseForm(driver);
-        basePage.maximaseWindow();
-        basePage.navigate(mainPage);
+        baseForm = new BaseForm(driver);
+        baseForm.maximiseWindow();
+        baseForm.navigate(mainPage);
         baseEntity = new BaseEntity();
     }
 
     @Test
-    public void shouldWork() throws UnsupportedEncodingException {
-
-
+    public void startTest() throws UnsupportedEncodingException {
         MainPage startPage = new MainPage();
         startPage.changeLanguage();
         startPage.moveToGamesMenu();
@@ -50,14 +49,11 @@ public class SteamTest {
         DescriptionPage descriptionPage = new DescriptionPage();
         descriptionPage.chooseAgeIfExist();
 
-
         baseEntity.assertTrue(descriptionPage.isSimilarPriceDiscount(list));
         descriptionPage.clickOnInstall();
 
         InstallPage installPage = new InstallPage();
         baseEntity.assertTrue(installPage.isFullDownload());
-
-
     }
 
     @AfterTest

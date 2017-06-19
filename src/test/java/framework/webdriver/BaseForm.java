@@ -1,9 +1,9 @@
-package test.steam.forms;
+package framework.webdriver;
 
 import org.openqa.selenium.WebDriver;
-import test.steam.services.CommonFunctions;
-import test.webdriver.elements.BaseEntity;
-import test.webdriver.browser.BrowserFactory;
+import framework.steam.services.GeneralFunctions;
+import framework.webdriver.BaseEntity;
+import framework.webdriver.browser.BrowserFactory;
 
 import java.util.Properties;
 
@@ -11,26 +11,22 @@ import java.util.Properties;
  * Created by User on 14.06.2017.
  */
 public class BaseForm extends BaseEntity {
-
-    private static final String MAIN_PROPERTY_PATH = "brouser.properties";
-    private static final String LOCATOR_PROPERTY_PATH = "templates.properties";
+    private static final String MAIN_PROPERTY_PATH = "config.properties";
+    private static final String LOCATOR_PROPERTY_PATH = "locators.properties";
     private static Properties properties;
     private static Properties locatorProperties;
     private static WebDriver driver;
 
-
     public BaseForm() {
-
     }
 
     public BaseForm(WebDriver driver) {
-
         super(driver);
         this.driver = driver;
     }
 
-    public void maximaseWindow() {
-        BrowserFactory.maximaseWindow();
+    public void maximiseWindow() {
+        BrowserFactory.maximiseWindow();
     }
 
     public void navigate(String url) {
@@ -46,14 +42,14 @@ public class BaseForm extends BaseEntity {
     }
 
     public Properties initProperties() {
-        CommonFunctions commonFunctions = new CommonFunctions();
-        properties = commonFunctions.readProperties(MAIN_PROPERTY_PATH);
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        properties = generalFunctions.readProperties(MAIN_PROPERTY_PATH);
         return properties;
     }
 
     public Properties initLocatorProperties() {
-        CommonFunctions commonFunctions = new CommonFunctions();
-        locatorProperties = commonFunctions.readProperties(LOCATOR_PROPERTY_PATH);
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        locatorProperties = generalFunctions.readProperties(LOCATOR_PROPERTY_PATH);
         return locatorProperties;
     }
 
@@ -64,7 +60,6 @@ public class BaseForm extends BaseEntity {
     public static Properties getProperties() {
         return properties;
     }
-
 
     public Properties getLocatorProperties() {
         return locatorProperties;

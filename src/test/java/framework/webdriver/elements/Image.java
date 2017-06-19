@@ -1,5 +1,6 @@
-package test.webdriver.elements;
+package framework.webdriver.elements;
 
+import framework.webdriver.BaseElements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -10,16 +11,12 @@ import java.util.List;
  * Created by User on 15.06.2017.
  */
 public class Image extends BaseElements {
-
     WebElement image;
 
     public Image(){
-
-
     }
 
     public Image(By by){
-
         this.image=findElement(by);
     }
 
@@ -27,19 +24,13 @@ public class Image extends BaseElements {
         this.image=image;
     }
 
-
-
     @Override
     public void click() {
-
         image.click();
-
-
     }
 
     public Image findElementByInd(List<Image> elements, int ind) {
         return  elements.get(ind);
-
     }
 
     public List<Image> getConvertedElements(String by) {
@@ -50,7 +41,6 @@ public class Image extends BaseElements {
         }
         return imageList;
     }
-
 
     @Override
     public String getText() {
@@ -64,6 +54,5 @@ public class Image extends BaseElements {
 
     @Override
     public void moveTo() {
-
     }
 }

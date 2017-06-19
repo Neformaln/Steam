@@ -1,6 +1,6 @@
-package test.steam.services;
+package framework.steam.services;
 
-import test.webdriver.elements.Label;
+import framework.webdriver.elements.Label;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 /**
  * Created by User on 15.06.2017.
  */
-public class CommonFunctions {
+public class GeneralFunctions {
     public Properties readProperties(String path){
         File ff = new File(getClass().getClassLoader().getResource(path).getFile());
         FileInputStream fis= null;
@@ -30,7 +30,6 @@ public class CommonFunctions {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return property;
     }
 
@@ -43,7 +42,6 @@ public class CommonFunctions {
                 discounts.add(new Integer(matcher.group()));
             }
         }
-
         return discounts;
     }
 
@@ -58,7 +56,6 @@ public class CommonFunctions {
             }
             ind ++;
         }
-
         return maxInd;
     }
 
@@ -69,6 +66,5 @@ public class CommonFunctions {
         } else {
             return false;
         }
-
     }
 }

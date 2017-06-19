@@ -1,4 +1,4 @@
-package test.webdriver.elements;
+package framework.webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,6 @@ import java.util.List;
  * Created by User on 14.06.2017.
  */
 public abstract class BaseElements extends BaseEntity {
-
     WebDriver driver;
 
     public BaseElements() {

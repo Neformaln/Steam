@@ -1,6 +1,7 @@
-package test.webdriver.elements;
+package framework.webdriver.elements;
 
 
+import framework.webdriver.BaseElements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -11,17 +12,14 @@ public class Button extends BaseElements {
     WebElement button;
 
     public Button() {
-
     }
 
     public Button(By by) {
         this.button = findElement(by);
-
     }
 
     public Button(WebElement button) {
         this.button = button;
-
     }
 
     @Override
@@ -40,6 +38,5 @@ public class Button extends BaseElements {
 
     @Override
     public void moveTo() {
-
     }
 }
